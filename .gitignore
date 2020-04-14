@@ -1,6 +1,6 @@
+.vscode
 *.pyc
 *~
-.vscode
 __pycache__
 env
 .env
