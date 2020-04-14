@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的作用域</title>
+</head>
+<body>
+    <!-- hello-component组件的模板 -->
+    <template id="hello">
+        <h1>{{ msg }}:{{ user }}</h1>
+    </template>
+    <!-- form-component组件的模板 -->
+    <template id="form">
+        <div>
+            <label for="name">你的名字是什么？</label>
+            <input autocomplete="off" type="text" v-bind:user="user" v-on:input="onInput" id="name">
+        </div>
+    </template>
+    <div id="app">
+        <form-component v-model="user"></form-component>
+        <hello-component v-bind:user="user"></hello-component>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('hello-component',{
+        template:'#hello',
+        data:function(){
+            return {
+                msg:'Hello'
+            }
+        },
+        props:['user']
+    });
+    // 注册form组件
+    Vue.component('form-component',{
+        template:'#form',
+        props:['user'],
+        methods: {
+            onInput:function(ev){
+                this.$emit('input',ev.target.value)
+            }
+        },
+    })
+    new Vue({
+        el:'#app',
+        data:{
+            user:'Bruce'
+        }
+    })
+</script>
+</html>
