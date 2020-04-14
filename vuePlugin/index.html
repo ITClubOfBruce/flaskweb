@@ -7,6 +7,7 @@
 </head>
 <body>
     <div id="app">
+        <h1>{{ $store.state.message }}</h1>
         <div>{{ item }}平方是 <span v-square='item'></span> </div>
         <div>{{ item }}开方是 <span v-sqrt='item'></span> </div>
     </div>
