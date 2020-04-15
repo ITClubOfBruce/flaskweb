@@ -70,6 +70,11 @@ input:focus,select:focus,textarea:focus {
 	outline:-webkit-focus-ring-color auto 0;
 }
 /* layout样式 */
+body{
+  background: #f0f2f5;
+  font-size: 14px;
+  color: #444;
+}
 .app-head {
   background: #363636;
   color: #b2b2b2;
