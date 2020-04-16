@@ -8,42 +8,53 @@
           <h3>{{ product.title }}</h3>
           <ul>
             <li v-for="item in product.list">
-                <a v-bind:href="item.url">{{ item.title }}</a>
+              <a v-bind:href="item.url">{{ item.title }}</a>
+              <span v-if="item.hot" class="hot-tag">HOT</span>
             </li>
           </ul>
-          <div class="hr"></div>
+          <div v-if="!product.last" class="hr"></div>
         </template>
       </div>
       <!-- 最新消息 -->
       <div class="index-left-block lastest-news">
         <h2>最新消息</h2>
         <ul>
-          <li>ddd</li>
+          <li v-for="item in newsList">
+            <a v-bind:href="item.url">{{ item.title }}</a>
+          </li>
         </ul>
       </div>
     </div>
     <div class="index-right">
-      <div style="margin:0 auto;width:700px;height:300px;background:red;">将来使用组件代替</div>
-      <div class="index-boader-list">
-        <div class="index-boader-item">
-          <h2>第1个</h2>
-          <p>第1个商品描述</p>
-          <div class="index-boader-button">立即购买</div>
+      <div style="margin:0 auto;width:900px;height:300px;background:red;">将来使用组件代替</div>
+      <div class="index-board-list">
+        <div class="index-board-item">
+          <div class="index-board-item-inner">
+            <h2>戴尔电脑</h2>
+            <p>戴尔电脑就是好哇</p>
+            <div class="index-board-button">立即购买</div>
+          </div>
         </div>
-        <div class="index-boader-item">
-          <h2>第2个</h2>
-          <p>第2个商品描述</p>
-          <div class="index-boader-button">立即购买</div>
+        <div class="index-board-item">
+          <div class="index-board-item-inner">
+            <h2>戴尔电脑</h2>
+            <p>戴尔电脑就是好哇</p>
+            <div class="index-board-button">立即购买</div>
+          </div>
         </div>
-        <div class="index-boader-item">
-          <h2>第3个</h2>
-          <p>第3个商品描述</p>
-          <div class="index-boader-button">立即购买</div>
+        <div class="index-board-item">
+          <div class="index-board-item-inner">
+            <h2>戴尔电脑</h2>
+            <p>戴尔电脑就是好哇</p>
+            <div class="index-board-button">立即购买</div>
+          </div>
         </div>
-        <div class="index-boader-item">
-          <h2>第4个</h2>
-          <p>第4个商品描述</p>
-          <div class="index-boader-button">立即购买</div>
+        <div class="index-board-item">
+          <div class="index-board-item-inner">
+            <h2>戴尔电脑</h2>
+            <p>戴尔电脑就是好哇</p>
+            <div class="index-board-button">立即购买</div>
+          </div>
         </div>
       </div>
     </div>
@@ -51,9 +62,54 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+  mounted() {
+    axios.post('api/getNewsList')
+    .then((res) => {
+      console.log(res)
+      this.newsList = res.data.list
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+    axios.get('api/getProductsList')
+    .then((res) => {
+      console.log(res)
+      this.newsList = res.data.list
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+    axios.get('api/getBoardList')
+    .then((res) => {
+      console.log(res)
+      this.newsList = res.data.list
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  },
   data() {
     return {
+      newsList: [
+        {
+          title: "数据统计",
+          url: "http://starcraft.com"
+        },
+        {
+          title: "数据预测",
+          url: "http://warcraft.com"
+        },
+        {
+          title: "流量分析",
+          url: "http://overwatch.com",
+        },
+        {
+          title: "广告发布",
+          url: "http://hearstone.com"
+        }
+      ],
       productList: {
         pc: {
           title: "PC产品",
@@ -79,6 +135,7 @@ export default {
         },
         app: {
           title: "手机应用类",
+          last: true,
           list: [
             {
               title: "91助手",
@@ -86,7 +143,8 @@ export default {
             },
             {
               title: "产品助手",
-              url: "http://weixin.com"
+              url: "http://weixin.com",
+              hot: true
             },
             {
               title: "智能地图",
@@ -94,7 +152,8 @@ export default {
             },
             {
               title: "语音助手",
-              url: "http://phone.com"
+              url: "http://phone.com",
+              hot: true
             }
           ]
         }
@@ -106,13 +165,15 @@ export default {
 
 <style scoped>
 .index-wrapper {
+  width: 1200px;
   display: flex;
 }
 .index-left {
-  width: 30%;
+  width: 300px;
 }
 .index-right {
-  width: 70%;
+  width: 900px;
+  margin-top: 15px;
 }
 .index-left-block {
   margin: 15px;
@@ -141,20 +202,48 @@ export default {
 .index-left-block li {
   padding: 5px;
 }
-.index-boader-list {
+.index-board-list {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 20px;
-  justify-content: center;
+  justify-content: space-between;
+  margin-top: 15px;
 }
-.index-boader-item {
-  width: 30%;
-  height: 125px;
-  padding-left: 120px;
+.index-board-item {
+  width: 400px;
   background: #ffffff;
-  margin-right: 1%;
   box-shadow: 0 0 1px #ddd;
-  margin-bottom: 20px;
   border-radius: 0 0 10px 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+.index-board-item-inner {
+  height: 125px;
+  padding-left: 180px;
+  background-image: url(../assets/logo.png);
+  background-repeat: no-repeat;
+  background-size: 30%;
+}
+.index-board-item-inner h2 {
+  font-size: 18px;
+  font-weight: bolder;
+  color: #000;
+  margin-bottom: 15px;
+}
+.index-board-item-inner p {
+  margin-bottom: 15px;
+}
+.index-board-button {
+  width: 80px;
+  height: 40px;
+  background: rgb(1, 77, 1);
+  color: #ffffff;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 40px;
+}
+.hot-tag {
+  color: #ffffff;
+  background: purple;
+  font-size: 13px;
 }
 </style>
