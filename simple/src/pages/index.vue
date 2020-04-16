@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="index-right">
-      <div style="margin:0 auto;width:900px;height:300px;background:red;">将来使用组件代替</div>
+      <slider-component></slider-component>
       <div class="index-board-list">
         <div class="index-board-item" v-for="item in boardList">
           <div class="index-board-item-inner">
@@ -42,7 +42,11 @@
 
 <script>
 import axios from 'axios'
+import SliderComponent from '../components/sliderComponent'
 export default {
+  components:{
+    SliderComponent
+  },
   mounted() {
     axios.get("api/getNewsList")
       .then((response) => {
